@@ -1,0 +1,32 @@
+{
+  "name": "iam",
+  "version": "1.0.0",
+  "description": "Identity Access Manager",
+  "repository": "",
+  "author": "mauro.franceschini@gmail.com",
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.js",
+  "scripts": {
+    "clean": "rimraf lib",
+    "lint": "tslint --force --format verbose \"src/**/*.ts\"",
+    "build": "npm run clean && npm run lint && echo Using TypeScript && tsc --version && tsc --pretty",
+    "test": "npm run build && mocha --compilers ts:ts-node/register --recursive test/**/*-spec.ts",
+    "integration-test": "npm run build && mocha --compilers ts:ts-node/register --recursive integration-test/**/*-spec.ts",
+    "watch": "npm run build -- --watch",
+    "watch:test": "npm run test -- --watch"
+  },
+  "keywords": [
+    "DDD",
+    "Identity",
+    "Access"
+  ],
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "sprintf-js": "^1.0.3",
+    "uuid": "^3.0.1"
+  }
+}
