@@ -17,6 +17,14 @@ export default class FullName {
         assert(lastName.match(LAST_NAME_PATTERN), "lastName format is not valid");
     }
 
+    public withChangedFirstName(firstName: string): FullName {
+        return new FullName(firstName, this.lastName);
+    }
+
+    public withChangedLastName(lastName: string): FullName {
+        return new FullName(this.firstName, lastName);
+    }
+
     public get fullName(): string {
         return this.firstName + " " + this.lastName;
     }
