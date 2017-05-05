@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import * as _ from "lodash";
 
-const EMAIL_PATTERN = /\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*/
+const EMAIL_PATTERN = /\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*/;
 
 /**
  * Value object used to represent an e-mail address.

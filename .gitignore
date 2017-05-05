@@ -1,5 +1,5 @@
-.vscode
-coverage/
+.vscodecoverage/
 node_modules/
 lib/*
 npm-debug.log
+!/test/domain/model/identity/FullName-spec.js

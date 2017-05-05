@@ -3,7 +3,7 @@ import * as _ from "lodash";
 import * as uuid from "uuid";
 
 import {Observable} from "@reactivex/rxjs";
-import {Collection, Db, DeleteWriteOpResultObject, InsertOneWriteOpResult, UpdateWriteOpResult} from "mongodb";
+import {Collection, Db} from "mongodb";
 
 import ITenantRepository from "../../domain/model/identity/ITenantRepository";
 import Tenant from "../../domain/model/identity/Tenant";
@@ -31,11 +31,11 @@ export default class TenantRepository implements ITenantRepository {
             description: tenant.description,
             name: tenant.name,
             tenantId: tenant.tenantId.id,
-        })).flatMap((r: InsertOneWriteOpResult) => {
+        })).map((r) => {
             if (r.insertedCount === 0) {
-                return Observable.throw("Tenant not inserted");
+                throw new Error("An error occurred while adding tenant into repository.");
             }
-            return Observable.of(tenant);
+            return tenant;
         });
     }
 
@@ -50,11 +50,11 @@ export default class TenantRepository implements ITenantRepository {
                 description: tenant.description,
                 name: tenant.name,
             },
-        })).flatMap((r: UpdateWriteOpResult) => {
+        })).map((r) => {
             if (r.modifiedCount === 0) {
-                return Observable.throw("No tenant found.");
+                throw new Error("An error occurred while updating tenant into repository.");
             }
-            return Observable.empty();
+            return null;
         });
     }
 
@@ -63,27 +63,28 @@ export default class TenantRepository implements ITenantRepository {
 
         return Observable.fromPromise(this.collection().deleteOne({
             tenantId: tenant.tenantId.id,
-        })).flatMap((r: DeleteWriteOpResultObject) => {
+        })).map((r) => {
             if (r.deletedCount === 0) {
-                return Observable.throw("No tenant found.");
+                throw new Error("An error occurred while removing tenant from repository.");
             }
-            return Observable.empty();
+            return null;
         });
     }
 
     public tenantNamed(name: string): Observable<Tenant> {
-        return Observable.fromPromise(this.collection().findOne({
-            name,
-        })).map((r) => new Tenant(new TenantId(r.tenantId), r.name, r.description, r.active));
+        return Observable.fromPromise(this.collection().findOne({ name })).map((r) => this.readTenant(r));
     }
 
     public tenantOfId(tenantId: TenantId): Observable<Tenant> {
-        return Observable.fromPromise(this.collection().findOne({
-            tenantId: tenantId.id,
-        })).map((r) => new Tenant(new TenantId(r.tenantId), r.name, r.description, r.active));
+        return Observable.fromPromise(this.collection().findOne({ tenantId: tenantId.id }))
+            .map((r) => this.readTenant(r));
     }
 
     private collection(): Collection {
         return this.db.collection(TENANTS_COLLECTION);
+    }
+
+    private readTenant(r: any): Tenant {
+        return new Tenant(new TenantId(r.tenantId), r.name, r.description, r.active);
     }
 }
