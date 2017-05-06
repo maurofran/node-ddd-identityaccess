@@ -11,16 +11,11 @@ export default class PostalAddress {
                 public readonly stateProvince: string,
                 public readonly countryCode: string) {
         assert(!_.isEmpty(streetName), "streetName is required");
-        assert(_.toLength(streetName) <= 70, "streetName must be 70 characters or less");
-        assert(_.toLength(buildingNumber) <= 18, "buildingNumber must be 18 characters or less");
         assert(!_.isEmpty(postalCode), "postalCode is required");
-        assert(_.toLength(postalCode) <= 18, "postalCode must be 18 characters or less");
         assert(!_.isEmpty(city), "city is required");
-        assert(_.toLength(city) <= 35, "city must be 35 characters or less");
         assert(!_.isEmpty(stateProvince), "stateProvince is required");
-        assert(_.toLength(stateProvince) <= 18, "stateProvince must be 18 characters or less");
         assert(!_.isEmpty(countryCode), "countryCode is required");
-        assert(_.toLength(countryCode) === 2, "countryCode must be 2 characters");
+        assert(countryCode.length === 2, "countryCode must be 2 characters");
     }
 
     public equals(other: any): boolean {

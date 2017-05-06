@@ -16,10 +16,8 @@ export default class FullName {
      */
     constructor(public readonly firstName: string, public readonly lastName: string) {
         assert(!_.isEmpty(firstName), "firstName is required");
-        assert(_.toLength(firstName) <= 70, "firstName must be 70 characters or less");
         assert(firstName.match(FIRST_NAME_PATTERN), "firstName format is not valid");
         assert(!_.isEmpty(lastName), "lastName is required");
-        assert(_.toLength(lastName) <= 70, "lastName must be 70 characters or less");
         assert(lastName.match(LAST_NAME_PATTERN), "lastName format is not valid");
     }
 

@@ -12,6 +12,10 @@ describe("FullName", () => {
             expect(res.firstName).to.equals("Other");
             expect(res.lastName).to.equals(fixture.lastName);
         });
+
+        it("should throw error when new first name is null", () => {
+            expect(() => fixture.withChangedFirstName(null)).to.throw("firstName is required");
+        });
     });
 
     describe("withChangedLastName", () => {
@@ -20,6 +24,10 @@ describe("FullName", () => {
 
             expect(res.firstName).to.equals(fixture.firstName);
             expect(res.lastName).to.equals("Other");
+        });
+
+        it("should throw error when new first name is null", () => {
+            expect(() => fixture.withChangedLastName(null)).to.throw("lastName is required");
         });
     });
 });

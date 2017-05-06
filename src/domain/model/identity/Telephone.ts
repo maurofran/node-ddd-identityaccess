@@ -7,7 +7,6 @@ import * as _ from "lodash";
 export default class Telephone {
     constructor(public readonly phoneNumber: string) {
         assert(!_.isEmpty(phoneNumber), "phoneNumber is required");
-        assert(_.toLength(phoneNumber) <= 18, "phoneNumber must be 18 characters or less");
     }
 
     public equals(other: any): boolean {
